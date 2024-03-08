@@ -1,0 +1,102 @@
+                               ▄▄                                                                  ▄▄  
+  ▄▄█▀▀▀█▄█                   ███                        ▄█▀▀▀█▄█                                ▀███  
+▄██▀     ▀█                    ██                       ▄██    ▀█                                  ██  
+██▀       ▀██▀   ▀██▀████████▄ ███████▄   ▄▄█▀██▀███▄███▀███▄    ▄██▀███▀███  ▀███  ▄█▀██▄    ▄█▀▀███  
+██          ██   ▄█   ██   ▀██ ██    ██  ▄█▀   ██ ██▀ ▀▀  ▀█████▄█▀   ██  ██    ██ ██   ██  ▄██    ██  
+██▄          ██ ▄█    ██    ██ ██    ██  ██▀▀▀▀▀▀ ██    ▄     ▀███    ██  ██    ██  ▄█████  ███    ██  
+▀██▄     ▄▀   ███     ██   ▄██ ██    ██  ██▄    ▄ ██    ██     ███▄   ██  ██    ██ ██   ██  ▀██    ██  
+  ▀▀█████▀    ▄█      ██████▀ ████  ████▄ ▀█████▀████▄  █▀█████▀ ▀██████  ▀████▀███▄████▀██▄ ▀████▀███▄
+            ▄█        ██                                              ██                               
+          ██▀       ▄████▄                                         ▄████▄                              
+
+Paolo Aglieco 08-03-2024
+
+-Descrizione del programma:
+Il programma si pone come obiettivo di stampare un menù testuale sul terminale nella quale l'utente può scegliere tramite un input da tastiera
+di moltiplicare, dividere due numeri o inserire una stringa. 
+
+-Analisi del codice:
+Il codice presenta problemi di sintassi,di natura logica e di visualizzazione. Il codice non è ottimamente indentato ciò compromette la fruizione
+da parte terzi della lettura, il che inficia la possibilità da parte di altri prorammatori di poter migliorare il codice.
+Per quanto riguara gli errori logici e di sintassi inserisco il codice commentato.
+
+
+#include <stdio.h>
+
+void menu ();
+void moltiplica ();
+void dividi ();
+void ins_string();
+
+
+int main () 
+
+{
+	char scelta = {'\0'}; // sbagliata dichiarazione del char scelta in quanto le graffe non vanno inserite
+	menu ();
+	scanf ("%d", &scelta); // errore in quanto deve essere inserito %c
+
+	switch (scelta)    /* presenta problemi in quando il parametro di default non è stato inserito, e in caso di inserimento di una lettera diversa delle suddette il programma termina.
+	{                   inoltre non si inserisce il controllo sul carattere se sia lower o uppercase, quindi in caso di inserimeno di una lettera in lowercase il programma termina*/
+		case 'A':
+		moltiplica();
+		break;
+		case 'B':
+                dividi();
+                break;
+		case 'C':
+                ins_string();
+                break;
+	}
+
+return 0;
+
+}
+
+
+void menu ()
+{
+	printf ("Benvenuto, sono un assitente digitale, posso aiutarti a sbrigare alcuni compiti\n");
+	printf ("Come posso aiutarti?\n");
+	printf ("A >> Moltiplicare due numeri\nB >> Dividere due numeri\nC >> Inserire una stringa\n");
+
+}
+
+
+void moltiplica ()
+{                                                                   /*Nella funzione i problemi sono nella dichiarazione del tipo di variabile in quanto è preferibile utilizzare int che permetterebbe di moltiplicare
+	short int  a,b = 0;                                             due interi con il valore minimo è di -2 147 483 648, quello massimo è di 2 147 483 647, inoltre le variabili dovrebbero essere inizializzate senza 
+	printf ("Inserisci i due numeri da moltiplicare:");             il valore 0.Nella richiesta di inserimento del valore da parte dell'utente della variabile a dovrebbe essere %d in quanto è un integer.
+	scanf ("%f", &a);                                               La moltiplicazione inoltre dovrebbe essere con il tipo int.*/
+	scanf ("%d", &b);
+
+	short int prodotto = a * b;
+
+	printf ("Il prodotto tra %d e %d e': %d", a,b,prodotto);
+}
+
+void dividi ()                                                      /*Nella funzione dividi si presentano gli stessi errori della funzione moltiplica e le variabili devono essere dichiarate senza =0, 
+{                                                                   nella dichiarazione di divisione il tipo deve essere float in quanto non tutte le divisione restituisco valori interi e l'operatore        
+        int  a,b = 0;                                               deve essere / e non % in quanto l'operazione restituirebbe il modulo e non la divisione ed inolte fare un typecast float prima dell'operazione divisione.
+        printf ("Inserisci il numeratore:");                        Nella stampa si deve cambiare quindi %d per divisione in quando sarà una varibile di tipo float.*/
+        scanf ("%d", &a);
+	printf ("Inserisci il denumeratore:");
+        scanf ("%d", &b);
+
+        int divisione = a % b;
+
+        printf ("La divisione tra %d e %d e': %d", a,b,divisione);
+}
+
+void ins_string () 
+{
+	char stringa[10];                                           /*Nella funzione di inserimento stringa, la stringa è inizializzata a 10 caratteri e quindi se l'utente ne inserisse di piu caratteri va in buffer overflow,inoltre nella 
+        printf ("Inserisci la stringa:");                       funzione si chiede all'utente di inserire la stringa ma dopo non viene fatta alcuna printf e quindi non saprebbe cosa ha inserito.
+        scanf ("%s", &stringa);
+}
+
+
+-Consigli:
+Si consiglia di inserire la funzione switch case all'interno di un loop come do while che al verificare del inserimento dell'input E o e il programma termini, in quanto si renderebbe il programma interattivo in quanto l'utente sceglie quando volere uscire ma inoltre
+renderebbe il programma riutilizzabile.Inoltre si consiglia di definire una constante MAX_LEN da inserire nella stringa, in modo da mitigare la possibilità del buffer overflow.
+
